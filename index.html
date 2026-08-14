@@ -1,0 +1,4428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEURONX 2026 — AI Innovation Hackathon</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+  rel="stylesheet"
+>
+
+<style>
+
+/* =========================================================
+   ROOT
+========================================================= */
+
+:root{
+  --red:#ed1c24;
+  --red2:#ff3b30;
+  --dark:#050505;
+  --dark2:#0b0b0b;
+  --card:#111;
+  --white:#fff;
+  --muted:#8c8c8c;
+  --line:rgba(255,255,255,.09);
+  --green:#55ff88;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Inter,Arial,sans-serif;
+  background:var(--dark);
+  color:white;
+  overflow-x:hidden;
+}
+
+body,
+button,
+input,
+textarea,
+select{
+  font-family:Inter,Arial,sans-serif;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button,
+input,
+textarea,
+select{
+  outline:none;
+}
+
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+.container{
+  width:min(1200px,92%);
+  margin:auto;
+}
+
+section{
+  position:relative;
+  padding:110px 0;
+}
+
+.bg-grid{
+  position:fixed;
+  inset:0;
+  z-index:-5;
+  opacity:.18;
+
+  background-image:
+    linear-gradient(
+      rgba(255,255,255,.035) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,.035) 1px,
+      transparent 1px
+    );
+
+  background-size:60px 60px;
+}
+
+.noise{
+  position:fixed;
+  inset:0;
+  z-index:-4;
+  pointer-events:none;
+  opacity:.035;
+
+  background-image:url(
+    "data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='%23n' opacity='.8'/%3E%3C/svg%3E"
+  );
+}
+
+.red-glow{
+  position:absolute;
+  width:600px;
+  height:600px;
+  border-radius:50%;
+  background:rgba(237,28,36,.15);
+  filter:blur(130px);
+  pointer-events:none;
+}
+
+.section-tag{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  color:#ff4b52;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:18px;
+}
+
+.section-tag::before{
+  content:"";
+  width:25px;
+  height:2px;
+  background:var(--red);
+}
+
+.section-title{
+  font-size:clamp(40px,5vw,72px);
+  line-height:.98;
+  letter-spacing:-3px;
+  font-weight:900;
+}
+
+.section-title span{
+  color:var(--red);
+}
+
+.section-desc{
+  max-width:650px;
+  color:#929292;
+  line-height:1.8;
+  margin-top:24px;
+}
+
+.reveal{
+  opacity:0;
+  transform:translateY(40px);
+  transition:1s cubic-bezier(.16,1,.3,1);
+}
+
+.reveal.show{
+  opacity:1;
+  transform:none;
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+nav{
+  position:fixed;
+  top:0;
+  width:100%;
+  z-index:1000;
+  padding:18px 0;
+  background:rgba(5,5,5,.72);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,255,255,.07);
+  transition:.3s;
+}
+
+.nav-inner{
+  width:min(1300px,94%);
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  font-size:23px;
+  font-weight:900;
+  letter-spacing:-1px;
+}
+
+.logo span{
+  color:var(--red);
+}
+
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:26px;
+}
+
+.nav-links a{
+  color:#999;
+  font-size:11px;
+  transition:.3s;
+}
+
+.nav-links a:hover{
+  color:white;
+}
+
+.nav-btn{
+  padding:12px 18px;
+  background:var(--red);
+  color:white!important;
+  font-weight:900;
+  border-radius:3px;
+}
+
+.mobile-menu{
+  display:none;
+  font-size:25px;
+  cursor:pointer;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  padding-top:140px;
+  overflow:hidden;
+}
+
+.hero .red-glow{
+  right:-200px;
+  top:80px;
+}
+
+.hero-content{
+  position:relative;
+  z-index:5;
+  max-width:850px;
+}
+
+.event-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:9px 15px;
+  border:1px solid rgba(237,28,36,.45);
+  background:rgba(237,28,36,.08);
+  color:#ff666b;
+  border-radius:100px;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1px;
+  margin-bottom:25px;
+}
+
+.live-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#30ff59;
+  box-shadow:0 0 15px red;
+  animation:pulse 1.4s infinite;
+}
+
+@keyframes pulse{
+  50%{
+    opacity:.2;
+    transform:scale(.6);
+  }
+}
+
+.hero h1{
+  font-size:clamp(60px,9vw,125px);
+  line-height:.82;
+  letter-spacing:-7px;
+  font-weight:900;
+}
+
+.hero h1 .outline{
+  color:transparent;
+  -webkit-text-stroke:1px rgba(255,255,255,.45);
+}
+
+.hero h1 .red{
+  color:var(--red);
+}
+
+.hero-sub{
+  max-width:630px;
+  margin-top:35px;
+  color:#a3a3a3;
+  font-size:17px;
+  line-height:1.7;
+}
+
+.hero-actions{
+  display:flex;
+  gap:13px;
+  flex-wrap:wrap;
+  margin-top:35px;
+}
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:170px;
+  padding:16px 24px;
+  border-radius:3px;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.5px;
+  border:0;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.btn-primary{
+  background:var(--red);
+  color:white;
+  box-shadow:0 0 30px rgba(237,28,36,.25);
+}
+
+.btn-primary:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 45px rgba(237,28,36,.4);
+}
+
+.btn-outline{
+  border:1px solid #3a3a3a;
+  background:transparent;
+  color:white;
+}
+
+.btn-outline:hover{
+  background:white;
+  color:black;
+}
+
+
+/* =========================================================
+   HERO VISUAL
+========================================================= */
+
+.hero-visual{
+  position:absolute;
+  right:-80px;
+  top:50%;
+  transform:translateY(-50%);
+  width:550px;
+  height:550px;
+  transition:transform .2s ease;
+}
+
+.orb{
+  position:absolute;
+  inset:100px;
+  border-radius:50%;
+
+  background:
+    radial-gradient(circle at 35% 30%,#ff4b50,transparent 25%),
+    radial-gradient(circle at 70% 70%,#700006,transparent 55%),
+    #100000;
+
+  box-shadow:
+    0 0 80px rgba(237,28,36,.4),
+    inset 0 0 100px #000;
+
+  animation:float 6s ease-in-out infinite;
+}
+
+.orb::after{
+  content:"NX";
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  font-size:95px;
+  font-weight:900;
+  color:rgba(255,255,255,.08);
+}
+
+.ring{
+  position:absolute;
+  inset:45px;
+  border:1px solid rgba(255,255,255,.17);
+  border-radius:50%;
+  animation:spin 18s linear infinite;
+}
+
+.ring.two{
+  inset:5px;
+  border-color:rgba(237,28,36,.4);
+  animation-duration:25s;
+  animation-direction:reverse;
+}
+
+.ring::before,
+.ring::after{
+  content:"";
+  position:absolute;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:var(--red);
+  box-shadow:0 0 20px red;
+}
+
+.ring::before{
+  top:10%;
+  left:8%;
+}
+
+.ring::after{
+  right:10%;
+  bottom:15%;
+}
+
+@keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+@keyframes float{
+  50%{
+    transform:translateY(-18px) scale(1.02);
+  }
+}
+
+
+/* =========================================================
+   MARQUEE
+========================================================= */
+
+.event-bar{
+  background:var(--red);
+  padding:22px 0;
+  overflow:hidden;
+}
+
+.marquee{
+  display:flex;
+  width:max-content;
+  animation:marquee 22s linear infinite;
+}
+
+.marquee span{
+  margin-right:70px;
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:2px;
+}
+
+@keyframes marquee{
+  to{
+    transform:translateX(-50%);
+  }
+}
+
+
+/* =========================================================
+   ABOUT
+========================================================= */
+
+.about-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px;
+  align-items:center;
+}
+
+.about-card{
+  min-height:500px;
+  border:1px solid var(--line);
+  background:linear-gradient(145deg,#171717,#090909);
+  position:relative;
+  overflow:hidden;
+}
+
+.about-card::before{
+  content:"NEURONX";
+  position:absolute;
+  font-size:75px;
+  font-weight:900;
+  color:rgba(255,255,255,.025);
+  transform:rotate(-90deg);
+  left:-155px;
+  top:180px;
+}
+
+.about-core{
+  position:absolute;
+  width:220px;
+  height:220px;
+  border:1px solid rgba(237,28,36,.6);
+  border-radius:50%;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 100px rgba(237,28,36,.15);
+}
+
+.about-core::after{
+  content:"AI";
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  font-size:70px;
+  font-weight:900;
+}
+
+.scan{
+  position:absolute;
+  width:100%;
+  height:2px;
+  background:linear-gradient(90deg,transparent,var(--red),transparent);
+  top:30%;
+  animation:scan 3s linear infinite;
+}
+
+@keyframes scan{
+  50%{
+    top:70%;
+  }
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats{
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:40px 0;
+}
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+}
+
+.stat{
+  text-align:center;
+  border-right:1px solid var(--line);
+}
+
+.stat:last-child{
+  border:0;
+}
+
+.stat strong{
+  font-size:40px;
+  font-weight:900;
+}
+
+.stat p{
+  color:#666;
+  font-size:10px;
+  margin-top:7px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+
+/* =========================================================
+   ELIGIBILITY
+========================================================= */
+
+.eligibility-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-top:55px;
+}
+
+.eligibility-card{
+  padding:35px;
+  background:#101010;
+  border:1px solid var(--line);
+  min-height:250px;
+  transition:.4s;
+}
+
+.eligibility-card:hover{
+  transform:translateY(-8px);
+  border-color:rgba(237,28,36,.5);
+}
+
+.icon{
+  width:50px;
+  height:50px;
+  display:grid;
+  place-items:center;
+  background:rgba(237,28,36,.1);
+  color:var(--red);
+  margin-bottom:30px;
+  font-size:20px;
+  font-weight:900;
+}
+
+.eligibility-card h3{
+  font-size:20px;
+  margin-bottom:14px;
+}
+
+.eligibility-card p{
+  color:#888;
+  line-height:1.7;
+  font-size:14px;
+}
+
+
+/* =========================================================
+   JOURNEY
+========================================================= */
+
+.journey{
+  background:#0b0b0b;
+}
+
+.journey-line{
+  position:relative;
+  margin-top:70px;
+}
+
+.journey-line::before{
+  content:"";
+  position:absolute;
+  left:28px;
+  top:0;
+  bottom:0;
+  width:1px;
+  background:linear-gradient(var(--red),transparent);
+}
+
+.journey-item{
+  display:grid;
+  grid-template-columns:70px 1fr;
+  gap:30px;
+  margin-bottom:65px;
+}
+
+.journey-number{
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  background:#111;
+  border:1px solid var(--red);
+  display:grid;
+  place-items:center;
+  color:var(--red);
+  font-weight:900;
+  position:relative;
+  z-index:2;
+}
+
+.journey-item h3{
+  font-size:28px;
+  margin-bottom:12px;
+}
+
+.journey-item p{
+  color:#888;
+  max-width:650px;
+  line-height:1.7;
+}
+
+
+/* =========================================================
+   LOCATION
+========================================================= */
+
+.location-section{
+  overflow:hidden;
+
+  background:
+    radial-gradient(
+      circle at 85% 30%,
+      rgba(237,28,36,.2),
+      transparent 30%
+    ),
+    #090909;
+}
+
+.location-section .red-glow{
+  right:-250px;
+  top:-200px;
+}
+
+.location-box{
+  border:1px solid rgba(237,28,36,.35);
+  padding:55px;
+  background:rgba(20,20,20,.7);
+  position:relative;
+  overflow:hidden;
+}
+
+.location-box::after{
+  content:"NX";
+  position:absolute;
+  right:-60px;
+  bottom:-120px;
+  font-size:280px;
+  font-weight:900;
+  color:rgba(255,255,255,.025);
+}
+
+.location-label{
+  color:#ff5359;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+.location-title{
+  font-size:clamp(42px,6vw,80px);
+  font-weight:900;
+  letter-spacing:-4px;
+  margin:15px 0;
+}
+
+.location-title span{
+  color:var(--red);
+}
+
+.schedule{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+  margin-top:40px;
+}
+
+.day{
+  padding:30px;
+  background:#0b0b0b;
+  border:1px solid var(--line);
+}
+
+.day-label{
+  color:var(--red);
+  font-size:11px;
+  font-weight:900;
+}
+
+.day h3{
+  font-size:27px;
+  margin:12px 0;
+}
+
+.day p{
+  color:#888;
+  line-height:1.7;
+  font-size:14px;
+}
+
+.time{
+  margin-top:20px;
+  font-size:18px;
+  font-weight:800;
+}
+
+.dynamic-status{
+  display:inline-flex;
+  margin-top:30px;
+  padding:10px 15px;
+  border:1px solid rgba(85,255,136,.25);
+  background:rgba(85,255,136,.06);
+  color:var(--green);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+
+/* =========================================================
+   COUNTDOWN
+========================================================= */
+
+.countdown{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:45px;
+}
+
+.time-box{
+  min-width:105px;
+  padding:18px;
+  text-align:center;
+  background:#080808;
+  border:1px solid #292929;
+}
+
+.time-box strong{
+  display:block;
+  font-size:32px;
+}
+
+.time-box span{
+  color:#666;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:2px;
+}
+
+
+/* =========================================================
+   PRIZES
+========================================================= */
+
+.prize-grid{
+  display:grid;
+  grid-template-columns:1.3fr 1fr 1fr;
+  gap:18px;
+  margin-top:60px;
+}
+
+.prize{
+  min-height:300px;
+  padding:35px;
+  background:#101010;
+  border:1px solid var(--line);
+  transition:.4s;
+}
+
+.prize:first-child{
+  background:linear-gradient(145deg,#2a0809,#0d0d0d);
+  border-color:rgba(237,28,36,.5);
+}
+
+.prize:hover{
+  transform:translateY(-8px);
+}
+
+.prize-number{
+  color:var(--red);
+  font-size:11px;
+  font-weight:900;
+}
+
+.prize h3{
+  font-size:42px;
+  margin-top:45px;
+}
+
+.prize p{
+  color:#777;
+  margin-top:10px;
+}
+
+
+/* =========================================================
+   THEMES
+========================================================= */
+
+.theme-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-top:55px;
+}
+
+.theme{
+  min-height:220px;
+  padding:28px;
+  background:#101010;
+  border:1px solid var(--line);
+  position:relative;
+  transition:.4s;
+}
+
+.theme:hover{
+  background:#171717;
+  border-color:rgba(237,28,36,.5);
+  transform:translateY(-5px);
+}
+
+.theme::after{
+  content:"→";
+  position:absolute;
+  right:25px;
+  bottom:20px;
+  color:#444;
+  font-size:25px;
+}
+
+.theme:hover::after{
+  color:var(--red);
+}
+
+.theme-icon{
+  font-size:30px;
+  margin-bottom:30px;
+}
+
+.theme h3{
+  font-size:19px;
+  line-height:1.2;
+}
+
+.theme small{
+  display:block;
+  color:#666;
+  margin-top:18px;
+}
+
+
+/* =========================================================
+   CAMPUS
+========================================================= */
+
+.campus{
+  background:#0b0b0b;
+}
+
+.campus-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+  margin-top:60px;
+}
+
+.campus-card{
+  min-height:300px;
+  padding:40px;
+  border:1px solid var(--line);
+  background:#101010;
+}
+
+.campus-card.active{
+  border-color:rgba(237,28,36,.5);
+}
+
+.campus-label{
+  color:var(--red);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:2px;
+}
+
+.campus-card h3{
+  font-size:35px;
+  margin:15px 0;
+}
+
+.campus-card p{
+  color:#888;
+  line-height:1.7;
+}
+
+
+/* =========================================================
+   CITY GRID
+========================================================= */
+
+.city-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:10px;
+  margin-top:40px;
+}
+
+.city{
+  padding:22px 15px;
+  text-align:center;
+  background:#0e0e0e;
+  border:1px solid var(--line);
+  transition:.3s;
+}
+
+.city strong{
+  display:block;
+  font-size:13px;
+}
+
+.city span{
+  display:block;
+  color:#666;
+  font-size:10px;
+  margin-top:7px;
+}
+
+.city.active{
+  background:
+    linear-gradient(
+      145deg,
+      rgba(237,28,36,.18),
+      #101010
+    );
+
+  border-color:var(--red);
+
+  box-shadow:0 0 25px rgba(237,28,36,.12);
+}
+
+.city.active strong{
+  color:#fff;
+}
+
+.city.active span{
+  color:#ff666b;
+}
+
+
+/* =========================================================
+   TIMELINE
+========================================================= */
+
+.timeline{
+  position:relative;
+  margin-top:60px;
+}
+
+.timeline::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:0;
+  bottom:0;
+  width:1px;
+  background:#282828;
+}
+
+.timeline-item{
+  width:50%;
+  padding:20px 55px;
+  position:relative;
+}
+
+.timeline-item:nth-child(even){
+  margin-left:50%;
+}
+
+.timeline-dot{
+  position:absolute;
+  top:30px;
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:var(--red);
+  box-shadow:0 0 20px rgba(237,28,36,.6);
+}
+
+.timeline-item:nth-child(odd) .timeline-dot{
+  right:-6px;
+}
+
+.timeline-item:nth-child(even) .timeline-dot{
+  left:-6px;
+}
+
+.timeline-date{
+  color:var(--red);
+  font-size:11px;
+  font-weight:900;
+}
+
+.timeline-item h3{
+  margin-top:10px;
+  font-size:20px;
+}
+
+.timeline-item p{
+  color:#666;
+  margin-top:7px;
+  font-size:13px;
+}
+
+
+/* =========================================================
+   JURY
+========================================================= */
+
+.jury-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-top:55px;
+}
+
+.juror{
+  padding:25px;
+  background:#101010;
+  border:1px solid var(--line);
+  text-align:center;
+}
+
+.avatar{
+  width:96px;
+  height:96px;
+  margin:0 auto 18px;
+  border-radius:50%;
+  overflow:hidden;
+  background:#17171f;
+  border:2px solid rgba(255,255,255,.12);
+  box-shadow:0 12px 30px rgba(0,0,0,.25);
+}
+
+.avatar img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  object-position:center top;
+}
+
+.juror h4{
+  font-size:14px;
+}
+
+.juror p{
+  color:#666;
+  font-size:11px;
+  margin-top:6px;
+}
+
+
+/* =========================================================
+   BUZZ
+========================================================= */
+
+.buzz-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-top:55px;
+}
+
+.buzz-card{
+  min-height:230px;
+  padding:28px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:18px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(237,28,36,.18),
+      rgba(255,255,255,.02)
+    );
+
+  transition:
+    transform .35s ease,
+    border-color .35s ease;
+}
+
+.buzz-card:hover{
+  transform:translateY(-8px);
+  border-color:rgba(237,28,36,.55);
+}
+
+.buzz-card span{
+  color:#ff6268;
+  font-size:.75rem;
+  font-weight:700;
+  letter-spacing:.12em;
+  margin-bottom:12px;
+}
+
+.buzz-card h3{
+  margin:0 0 10px;
+  font-size:1.35rem;
+}
+
+.buzz-card p{
+  margin:0;
+  line-height:1.6;
+  color:#999;
+  font-size:13px;
+}
+
+
+/* =========================================================
+   FAQ
+========================================================= */
+
+.faq{
+  max-width:850px;
+  margin:60px auto 0;
+}
+
+.faq-item{
+  border-top:1px solid var(--line);
+}
+
+.faq-question{
+  width:100%;
+  padding:25px 0;
+  display:flex;
+  justify-content:space-between;
+  color:white;
+  background:none;
+  border:0;
+  text-align:left;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.faq-question span{
+  color:var(--red);
+  font-size:24px;
+  transition:.3s;
+}
+
+.faq-answer{
+  max-height:0;
+  overflow:hidden;
+  color:#777;
+  line-height:1.7;
+  font-size:14px;
+  transition:.4s;
+}
+
+.faq-item.open .faq-answer{
+  max-height:250px;
+  padding-bottom:25px;
+}
+
+.faq-item.open .faq-question span{
+  transform:rotate(45deg);
+}
+
+
+/* =========================================================
+   REGISTRATION
+========================================================= */
+
+.registration{
+  background:
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(237,28,36,.18),
+      transparent 40%
+    ),
+    #080808;
+}
+
+.registration-box{
+  width:min(760px,100%);
+  margin:auto;
+}
+
+.registration-header{
+  text-align:center;
+  margin-bottom:50px;
+}
+
+.registration-header .section-title{
+  max-width:700px;
+  margin:auto;
+}
+
+.form-card{
+  padding:45px;
+  background:#0d0d0d;
+  border:1px solid #292929;
+  box-shadow:0 30px 100px rgba(0,0,0,.35);
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.form-group{
+  margin-bottom:20px;
+}
+
+.form-group.full{
+  grid-column:1/-1;
+}
+
+.form-group label{
+  display:block;
+  color:#aaa;
+  font-size:11px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  margin-bottom:9px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+  width:100%;
+  background:#080808;
+  color:white;
+  border:1px solid #292929;
+  padding:15px;
+  border-radius:3px;
+  transition:.3s;
+}
+
+.form-group textarea{
+  min-height:120px;
+  resize:vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+  border-color:var(--red);
+  box-shadow:0 0 0 2px rgba(237,28,36,.08);
+}
+
+.form-note{
+  color:#555;
+  font-size:11px;
+  line-height:1.6;
+  margin:20px 0;
+}
+
+.submit-button{
+  width:100%;
+}
+
+.success-box{
+  display:none;
+  padding:40px;
+  text-align:center;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(40,255,100,.08),
+      rgba(255,255,255,.02)
+    ),
+    #0b0b0b;
+
+  border:1px solid rgba(85,255,136,.35);
+}
+
+.success-icon{
+  width:65px;
+  height:65px;
+  margin:0 auto 25px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:rgba(85,255,136,.1);
+  color:var(--green);
+  font-size:30px;
+}
+
+.success-box h3{
+  font-size:30px;
+  margin-bottom:12px;
+}
+
+.success-box p{
+  color:#777;
+  line-height:1.7;
+}
+
+.registration-id{
+  display:inline-block;
+  margin-top:20px;
+  padding:14px 20px;
+  background:#050505;
+  border:1px solid #292929;
+  color:var(--green);
+  font-weight:900;
+  letter-spacing:2px;
+  font-family:monospace;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+  border-top:1px solid var(--line);
+  padding:30px 0;
+  color:#555;
+  font-size:11px;
+}
+
+.footer-inner{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1000px){
+
+  .nav-links{
+    display:none;
+  }
+
+  .mobile-menu{
+    display:block;
+  }
+
+  .hero-visual{
+    opacity:.35;
+    right:-250px;
+  }
+
+  .about-grid,
+  .campus-grid{
+    grid-template-columns:1fr;
+  }
+
+  .eligibility-grid,
+  .theme-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .prize-grid{
+    grid-template-columns:1fr;
+  }
+
+  .jury-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .buzz-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .city-grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+}
+
+@media(max-width:600px){
+
+  section{
+    padding:80px 0;
+  }
+
+  .hero{
+    min-height:850px;
+  }
+
+  .hero h1{
+    letter-spacing:-4px;
+  }
+
+  .about-grid,
+  .eligibility-grid,
+  .theme-grid,
+  .schedule,
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .form-group.full{
+    grid-column:auto;
+  }
+
+  .form-card{
+    padding:25px 20px;
+  }
+
+  .location-box{
+    padding:30px 22px;
+  }
+
+  .stats-grid{
+    grid-template-columns:1fr 1fr;
+    gap:30px 0;
+  }
+
+  .stat:nth-child(2){
+    border:0;
+  }
+
+  .timeline::before{
+    left:6px;
+  }
+
+  .timeline-item,
+  .timeline-item:nth-child(even){
+    width:100%;
+    margin:0;
+    padding-left:35px;
+    padding-right:0;
+  }
+
+  .timeline-item:nth-child(odd) .timeline-dot,
+  .timeline-item:nth-child(even) .timeline-dot{
+    left:0;
+    right:auto;
+  }
+
+  .jury-grid{
+    grid-template-columns:1fr;
+  }
+
+  .city-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .buzz-grid{
+    grid-template-columns:1fr;
+  }
+
+  .footer-inner{
+    flex-direction:column;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE NAV
+========================================================= */
+
+.mobile-nav-open{
+  display:flex!important;
+
+  position:absolute;
+
+  top:70px;
+  left:4%;
+  right:4%;
+
+  padding:25px;
+
+  flex-direction:column;
+
+  background:#101010;
+
+  border:1px solid #333;
+}
+
+
+/* =========================================================
+   DYNAMIC UPDATE ANIMATION
+========================================================= */
+
+.dynamic-update{
+  animation:dynamicFade .6s ease;
+}
+
+@keyframes dynamicFade{
+
+  from{
+    opacity:.3;
+    transform:translateY(8px);
+  }
+
+  to{
+    opacity:1;
+    transform:none;
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="bg-grid"></div>
+<div class="noise"></div>
+
+
+<!-- =======================================================
+     NAVIGATION
+======================================================= -->
+
+<nav id="navbar">
+
+  <div class="nav-inner">
+
+    <a href="#" class="logo">
+      NEURON<span>X</span>
+    </a>
+
+    <div class="nav-links" id="navLinks">
+
+      <a href="#about">About</a>
+      <a href="#prizes">Prizes</a>
+      <a href="#themes">Themes</a>
+      <a href="#campus">Campus</a>
+      <a href="#timeline">Timeline</a>
+      <a href="#buzz">Buzz</a>
+      <a href="#faq">FAQ</a>
+
+      <a href="#register" class="nav-btn">
+        REGISTER →
+      </a>
+
+    </div>
+
+    <div class="mobile-menu" id="mobileMenu">
+      ☰
+    </div>
+
+  </div>
+
+</nav>
+
+
+<!-- =======================================================
+     HERO
+======================================================= -->
+
+<section class="hero">
+
+  <div class="red-glow"></div>
+
+  <div class="container">
+
+    <div class="hero-content reveal">
+
+      <div class="event-pill">
+
+        <span class="live-dot"></span>
+
+        <span id="heroLocation">
+          AHMEDABAD
+        </span>
+
+        ·
+
+        <span id="heroDates">
+          19–20 AUGUST 2026
+        </span>
+
+      </div>
+
+      <h1>
+
+        THINK.<br>
+
+        <span class="outline">
+          BUILD.
+        </span><br>
+
+        <span class="red">
+          NEURONX.
+        </span>
+
+      </h1>
+
+      <p class="hero-sub">
+
+        A next-generation AI innovation hackathon
+        where participants turn bold ideas into
+        real-world solutions.
+
+      </p>
+
+      <div class="hero-actions">
+
+        <a href="#register" class="btn btn-primary">
+          REGISTER NOW →
+        </a>
+
+        <a href="#themes" class="btn btn-outline">
+          EXPLORE THEMES
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="hero-visual" id="heroVisual">
+
+    <div class="ring"></div>
+    <div class="ring two"></div>
+    <div class="orb"></div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     MARQUEE
+======================================================= -->
+
+<div class="event-bar">
+
+  <div class="marquee" id="marquee">
+
+    <span>NEURONX 2026</span>
+    <span>AI INNOVATION</span>
+
+    <span id="marqueeLocation">
+      AHMEDABAD
+    </span>
+
+    <span id="marqueeDates">
+      19–20 AUGUST 2026
+    </span>
+
+    <span>BUILD THE FUTURE</span>
+    <span>REAL PROBLEMS · REAL IMPACT</span>
+
+    <span>NEURONX 2026</span>
+    <span>AI INNOVATION</span>
+
+    <span id="marqueeLocation2">
+      AHMEDABAD
+    </span>
+
+    <span id="marqueeDates2">
+      19–20 AUGUST 2026
+    </span>
+
+    <span>BUILD THE FUTURE</span>
+    <span>REAL PROBLEMS · REAL IMPACT</span>
+
+  </div>
+
+</div>
+
+
+<!-- =======================================================
+     ABOUT
+======================================================= -->
+
+<section id="about">
+
+  <div class="container">
+
+    <div class="about-grid">
+
+      <div class="about-card reveal">
+
+        <div class="scan"></div>
+        <div class="about-core"></div>
+
+      </div>
+
+      <div class="reveal">
+
+        <div class="section-tag">
+          01 · ABOUT NEURONX
+        </div>
+
+        <h2 class="section-title">
+
+          Ideas become<br>
+
+          <span>
+            intelligence.
+          </span>
+
+        </h2>
+
+        <p class="section-desc">
+
+          NEURONX is an AI innovation hackathon
+          that brings ambitious innovators
+          together to solve meaningful real-world
+          problems.
+
+        </p>
+
+        <p class="section-desc">
+
+          Think beyond the obvious, experiment
+          with emerging technologies and build
+          something that creates real impact.
+
+        </p>
+
+        <div class="hero-actions">
+
+          <a href="#journey" class="btn btn-primary">
+            START BUILDING
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     STATS
+======================================================= -->
+
+<div class="stats">
+
+  <div class="container">
+
+    <div class="stats-grid">
+
+      <div class="stat">
+
+        <strong>AI</strong>
+
+        <p>
+          Powered Innovation
+        </p>
+
+      </div>
+
+      <div class="stat">
+
+        <strong>3</strong>
+
+        <p>
+          Participants Per Team
+        </p>
+
+      </div>
+
+      <div class="stat">
+
+        <strong>9+</strong>
+
+        <p>
+          Innovation Themes
+        </p>
+
+      </div>
+
+      <div class="stat">
+
+        <strong>2</strong>
+
+        <p>
+          Days Per City
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =======================================================
+     ELIGIBILITY
+======================================================= -->
+
+<section>
+
+  <div class="container">
+
+    <div class="section-tag">
+      02 · WHO CAN PARTICIPATE?
+    </div>
+
+    <h2 class="section-title reveal">
+
+      The next big idea<br>
+
+      could be <span>yours.</span>
+
+    </h2>
+
+    <div class="eligibility-grid">
+
+      <div class="eligibility-card reveal">
+
+        <div class="icon">◈</div>
+
+        <h3>
+          Undergraduate & Postgraduate
+        </h3>
+
+        <p>
+          Undergraduate and postgraduate
+          students across India can participate,
+          subject to the eligibility requirements.
+        </p>
+
+      </div>
+
+      <div class="eligibility-card reveal">
+
+        <div class="icon">3</div>
+
+        <h3>
+          Teams Up To 3 Participants
+        </h3>
+
+        <p>
+          Participants can compete individually
+          or form a team of up to three participants
+          across India.
+        </p>
+
+      </div>
+
+      <div class="eligibility-card reveal">
+
+        <div class="icon">AI</div>
+
+        <h3>
+          Build With Purpose
+        </h3>
+
+        <p>
+          Create an AI-powered solution around
+          one of the challenge themes and demonstrate
+          meaningful real-world impact.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     JOURNEY
+======================================================= -->
+
+<section class="journey" id="journey">
+
+  <div class="container">
+
+    <div class="section-tag">
+      03 · YOUR JOURNEY
+    </div>
+
+    <h2 class="section-title reveal">
+
+      From idea<br>
+
+      to <span>impact.</span>
+
+    </h2>
+
+    <div class="journey-line">
+
+      <div class="journey-item reveal">
+
+        <div class="journey-number">01</div>
+
+        <div>
+
+          <h3>
+            Registration
+          </h3>
+
+          <p>
+            Register for NEURONX and secure
+            your place in the innovation journey.
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="journey-item reveal">
+
+        <div class="journey-number">02</div>
+
+        <div>
+
+          <h3>
+            Hackathon
+          </h3>
+
+          <p>
+            Ideate, experiment, build and turn
+            your AI concept into a working solution.
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="journey-item reveal">
+
+        <div class="journey-number">03</div>
+
+        <div>
+
+          <h3>
+            Final Demo
+          </h3>
+
+          <p>
+            Present your prototype to the jury
+            and demonstrate the innovation,
+            technology and impact behind your idea.
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="journey-item reveal">
+
+        <div class="journey-number">04</div>
+
+        <div>
+
+          <h3>
+            Results & Recognition
+          </h3>
+
+          <p>
+            Winners are announced after final
+            demos and jury evaluation.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     DYNAMIC LOCATION
+======================================================= -->
+
+<section class="location-section" id="event">
+
+  <div class="red-glow"></div>
+
+  <div class="container">
+
+    <div class="section-tag">
+      04 · CURRENT REGIONAL EVENT
+    </div>
+
+    <div class="location-box reveal" id="locationBox">
+
+      <div
+        class="location-label dynamic-update"
+        id="locationLabel"
+      >
+        AHMEDABAD · GUJARAT · INDIA
+      </div>
+
+      <h2
+        class="location-title dynamic-update"
+        id="locationTitle"
+      >
+
+        TWO DAYS.<br>
+
+        <span>
+          ONE MISSION.
+        </span>
+
+      </h2>
+
+      <p
+        class="section-desc dynamic-update"
+        id="locationDescription"
+      >
+        city hosts the NEURONX regional
+        innovation experience, bringing together
+        builders, ideas, prototypes and expert
+        evaluation.
+      </p>
+
+      <div class="dynamic-status">
+
+        ● NEXT REGIONAL EVENT:
+
+        <span
+          id="currentCityStatus"
+          style="margin-left:5px"
+        >
+          AHMEDABAD
+        </span>
+
+      </div>
+
+      <div class="schedule">
+
+        <div class="day">
+
+          <div
+            class="day-label"
+            id="dayOneLabel"
+          >
+            DAY 01 · 19 AUGUST 2026
+          </div>
+
+          <h3>
+            Regional Ideathon
+          </h3>
+
+          <p id="dayOneDescription">
+            A high-energy innovation sprint
+            where participants ideate, build
+            and develop bold AI-powered concepts.
+          </p>
+
+          <div class="time">
+            10:00 AM — 06:00 PM
+          </div>
+
+        </div>
+
+        <div class="day">
+
+          <div
+            class="day-label"
+            id="dayTwoLabel"
+          >
+            DAY 02 · 20 AUGUST 2026
+          </div>
+
+          <h3>
+            Regional Demo Day
+          </h3>
+
+          <p id="dayTwoDescription">
+            Shortlisted teams showcase their
+            prototypes and present their ideas
+            to the regional jury.
+          </p>
+
+          <div class="time">
+            10:00 AM — 01:00 PM
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="countdown">
+
+        <div class="time-box">
+
+          <strong id="days">00</strong>
+
+          <span>Days</span>
+
+        </div>
+
+        <div class="time-box">
+
+          <strong id="hours">00</strong>
+
+          <span>Hours</span>
+
+        </div>
+
+        <div class="time-box">
+
+          <strong id="minutes">00</strong>
+
+          <span>Minutes</span>
+
+        </div>
+
+        <div class="time-box">
+
+          <strong id="seconds">00</strong>
+
+          <span>Seconds</span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     PRIZES
+======================================================= -->
+
+<section id="prizes">
+
+  <div class="container">
+
+    <div class="section-tag">
+      05 · DREAM BIG
+    </div>
+
+    <h2 class="section-title reveal">
+
+      Build something<br>
+
+      <span>
+        unforgettable.
+      </span>
+
+    </h2>
+
+    <div class="prize-grid">
+
+      <div class="prize reveal">
+
+        <div class="prize-number">
+          01 · GRAND WINNER
+        </div>
+
+        <h3>WIN</h3>
+
+        <p>
+          Grand recognition for the strongest
+          innovation.
+        </p>
+
+      </div>
+
+      <div class="prize reveal">
+
+        <div class="prize-number">
+          02 · RUNNER UP
+        </div>
+
+        <h3>02</h3>
+
+        <p>
+          Recognition for exceptional innovation.
+        </p>
+
+      </div>
+
+      <div class="prize reveal">
+
+        <div class="prize-number">
+          03 · THIRD PLACE
+        </div>
+
+        <h3>03</h3>
+
+        <p>
+          Recognition for outstanding execution.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     THEMES
+======================================================= -->
+
+<section id="themes" style="background:#0b0b0b">
+
+  <div class="container">
+
+    <div class="section-tag">
+      06 · INNOVATION THEMES
+    </div>
+
+    <h2 class="section-title reveal">
+
+      Pick a problem.<br>
+
+      <span>
+        Build the future.
+      </span>
+
+    </h2>
+
+    <div class="theme-grid">
+
+      <div class="theme reveal">
+        <div class="theme-icon">✦</div>
+        <h3>
+          Generative AI<br>
+          for Everyone
+        </h3>
+        <small>Explore →</small>
+      </div>
+
+      <div class="theme reveal">
+        <div class="theme-icon">◫</div>
+        <h3>
+          AI in Education<br>
+          & Skilling
+        </h3>
+        <small>Explore →</small>
+      </div>
+
+      <div class="theme reveal">
+        <div class="theme-icon">◎</div>
+        <h3>
+          Future of Work<br>
+          & Productivity
+        </h3>
+        <small>Explore →</small>
+      </div>
+
+      <div class="theme reveal">
+        <div class="theme-icon">♻</div>
+        <h3>
+          Sustainable AI<br>
+          & Green Tech
+        </h3>
+        <small>Explore →</small>
+      </div>
+
+      <div class="theme reveal">
+        <div class="theme-icon">♥</div>
+        <h3>
+          AI for<br>
+          Social Good
+        </h3>
+        <small>Explore →</small>
+      </div>
+
+      <div class="theme reveal">
+        <div class="theme-icon">⌁</div>
+        <h3>
+          AI + Cybersecurity<br>
+          & Privacy
+        </h3>
+        <small>Explore →</small>
+      </div>
+
+      <div class="theme reveal">
+        <div class="theme-icon">◇</div>
+        <h3>
+          AI in Consumer<br>
+          Experiences
+        </h3>
+        <small>Explore →</small>
+      </div>
+
+      <div class="theme reveal">
+        <div class="theme-icon">▦</div>
+        <h3>
+          AI for<br>
+          Smart Cities
+        </h3>
+        <small>Explore →</small>
+      </div>
+
+      <div class="theme reveal">
+        <div class="theme-icon">∞</div>
+        <h3>
+          Open<br>
+          Innovation
+        </h3>
+        <small>Explore →</small>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     CAMPUS
+======================================================= -->
+
+<section class="campus" id="campus">
+
+  <div class="container">
+
+    <div class="section-tag">
+      07 · REGIONAL TOUR
+    </div>
+
+    <h2 class="section-title reveal">
+
+      Ideas across<br>
+
+      <span>
+        India.
+      </span>
+
+    </h2>
+
+    <div class="campus-grid">
+
+      <div
+        class="campus-card active reveal"
+        id="campusDayOne"
+      >
+
+        <div class="campus-label">
+          NEXT CITY
+        </div>
+
+        <h3 id="campusCityTitle">
+          Ahmedabad
+        </h3>
+
+        <p id="campusDayOneText">
+          Ahmedabad is the next NEURONX regional
+          destination.
+        </p>
+
+      </div>
+
+      <div
+        class="campus-card reveal"
+        id="campusDayTwo"
+      >
+
+        <div class="campus-label">
+          EVENT FORMAT
+        </div>
+
+        <h3>
+          Regional Demo Day
+        </h3>
+
+        <p id="campusDayTwoText">
+          Shortlisted participants present
+          their prototypes and compete for
+          regional recognition.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="city-grid" id="cityGrid">
+
+      <div class="city" data-city="Jaipur">
+        <strong>Jaipur</strong>
+        <span>01 – 02 July 2026</span>
+      </div>
+
+      <div class="city" data-city="Pune">
+        <strong>Pune</strong>
+        <span>09 – 10 July 2026</span>
+      </div>
+
+      <div class="city" data-city="Bhopal">
+        <strong>Bhopal</strong>
+        <span>19 – 20 July 2026</span>
+      </div>
+
+      <div class="city" data-city="Mumbai">
+        <strong>Mumbai</strong>
+        <span>01 – 02 August 2026</span>
+      </div>
+
+      <div class="city" data-city="Chennai">
+        <strong>Chennai</strong>
+        <span>09 – 10 August 2026</span>
+      </div>
+
+      <div class="city" data-city="Ahmedabad">
+        <strong>Ahmedabad</strong>
+        <span>19 – 20 August 2026</span>
+      </div>
+
+      <div class="city" data-city="Hyderabad">
+        <strong>Hyderabad</strong>
+        <span>01 – 02 September 2026</span>
+      </div>
+
+      <div class="city" data-city="Kolkata">
+        <strong>Kolkata</strong>
+        <span>09 – 10 September 2026</span>
+      </div>
+
+      <div class="city" data-city="Bengaluru">
+        <strong>Bengaluru</strong>
+        <span>19 – 20 September 2026</span>
+      </div>
+
+      <div class="city" data-city="Delhi">
+        <strong>Delhi</strong>
+        <span>09 – 10 October 2026</span>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     TIMELINE
+======================================================= -->
+
+<section id="timeline">
+
+  <div class="container">
+
+    <div class="section-tag">
+      08 · TIMELINE
+    </div>
+
+    <h2 class="section-title reveal">
+
+      The road to<br>
+
+      <span>
+        victory.
+      </span>
+
+    </h2>
+
+    <div class="timeline">
+
+      <div class="timeline-item reveal">
+
+        <div class="timeline-dot"></div>
+
+        <div class="timeline-date">
+          NOW OPEN
+        </div>
+
+        <h3>
+          Registration
+        </h3>
+
+        <p>
+          Register individually or as a team
+          of up to three participants.
+        </p>
+
+      </div>
+
+      <div class="timeline-item reveal">
+
+        <div class="timeline-dot"></div>
+
+        <div
+          class="timeline-date"
+          id="timelineDayOne"
+        >
+          19 AUGUST 2026 · 10:00 AM – 6:00 PM
+        </div>
+
+        <h3>
+          Regional Hackathon — Day 1
+        </h3>
+
+        <p id="timelineDayOneText">
+          Ideate, build, experiment and develop
+          your AI-powered solution.
+        </p>
+
+      </div>
+
+      <div class="timeline-item reveal">
+
+        <div class="timeline-dot"></div>
+
+        <div
+          class="timeline-date"
+          id="timelineDayTwo"
+        >
+          20 AUGUST 2026 · 10:00 AM – 1:00 PM
+        </div>
+
+        <h3>
+          Regional Demo — Day 2
+        </h3>
+
+        <p id="timelineDayTwoText">
+          Present your solution to the jury
+          and demonstrate your innovation.
+        </p>
+
+      </div>
+
+      <div class="timeline-item reveal">
+
+        <div class="timeline-dot"></div>
+
+        <div
+          class="timeline-date"
+          id="timelineResults"
+        >
+          20 AUGUST 2026
+        </div>
+
+        <h3>
+          Results & Recognition
+        </h3>
+
+        <p>
+          Winners are announced following
+          final demos and jury evaluation.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     JURY
+======================================================= -->
+
+<section style="background:#0b0b0b">
+
+  <div class="container">
+
+    <div class="section-tag">
+      09 · REGIONAL JURY
+    </div>
+
+    <h2 class="section-title reveal">
+
+      Meet the<br>
+
+      <span>
+        jury.
+      </span>
+
+    </h2>
+
+    <div class="jury-grid">
+
+      <div class="juror reveal">
+        <div class="avatar">
+          <img
+            src="https://randomuser.me/api/portraits/men/32.jpg"
+            alt="Daksham Ratanchandani"
+          >
+        </div>
+        <h4>Daksham Ratanchandani</h4>
+        <p>Regional Jury</p>
+      </div>
+
+      <div class="juror reveal">
+        <div class="avatar">
+          <img
+            src="https://randomuser.me/api/portraits/women/44.jpg"
+            alt="Heena Chauhan"
+          >
+        </div>
+        <h4>Heena Chauhan</h4>
+        <p>Regional Jury</p>
+      </div>
+
+      <div class="juror reveal">
+        <div class="avatar">
+          <img
+            src="https://randomuser.me/api/portraits/men/46.jpg"
+            alt="Satya Mehta"
+          >
+        </div>
+        <h4>Satya Mehta</h4>
+        <p>Regional Jury</p>
+      </div>
+
+      <div class="juror reveal">
+        <div class="avatar">
+          <img
+            src="https://randomuser.me/api/portraits/men/52.jpg"
+            alt="Kandarp J Pandey"
+          >
+        </div>
+        <h4>Kandarp J Pandey</h4>
+        <p>Regional Jury</p>
+      </div>
+
+      <div class="juror reveal">
+        <div class="avatar">
+          <img
+            src="https://randomuser.me/api/portraits/men/61.jpg"
+            alt="Mahammadali Nathametha"
+          >
+        </div>
+        <h4>Mahammadali Nathametha</h4>
+        <p>Regional Jury</p>
+      </div>
+
+      <div class="juror reveal">
+        <div class="avatar">
+          <img
+            src="https://randomuser.me/api/portraits/men/68.jpg"
+            alt="Abhishek Raj Permani"
+          >
+        </div>
+        <h4>Abhishek Raj Permani</h4>
+        <p>Regional Jury</p>
+      </div>
+
+      <div class="juror reveal">
+        <div class="avatar">
+          <img
+            src="https://randomuser.me/api/portraits/men/75.jpg"
+            alt="Devendra Singh Shekhawat"
+          >
+        </div>
+        <h4>Devendra Singh Shekhawat</h4>
+        <p>Regional Jury</p>
+      </div>
+
+      <div class="juror reveal">
+        <div class="avatar">
+          <img
+            src="https://randomuser.me/api/portraits/men/79.jpg"
+            alt="Anuj Mathur"
+          >
+        </div>
+        <h4>Anuj Mathur</h4>
+        <p>Regional Jury</p>
+      </div>
+
+      <div class="juror reveal">
+        <div class="avatar">
+          <img
+            src="https://randomuser.me/api/portraits/men/22.jpg"
+            alt="Himanshu Khandelwal"
+          >
+        </div>
+        <h4>Himanshu Khandelwal</h4>
+        <p>Regional Jury</p>
+      </div>
+
+      <div class="juror reveal">
+        <div class="avatar">
+          <img
+            src="https://randomuser.me/api/portraits/men/41.jpg"
+            alt="Rushikesh Kulkarni"
+          >
+        </div>
+        <h4>Rushikesh Kulkarni</h4>
+        <p>Regional Jury</p>
+      </div>
+
+      <div class="juror reveal">
+        <div class="avatar">
+          <img
+            src="https://randomuser.me/api/portraits/women/65.jpg"
+            alt="Nikita Chaudhari"
+          >
+        </div>
+        <h4>Nikita Chaudhari</h4>
+        <p>Regional Jury</p>
+      </div>
+
+      <div class="juror reveal">
+        <div class="avatar">
+          <img
+            src="https://randomuser.me/api/portraits/men/55.jpg"
+            alt="Ganesh Rajendra Zambre"
+          >
+        </div>
+        <h4>Ganesh Rajendra Zambre</h4>
+        <p>Regional Jury</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     BUZZ
+======================================================= -->
+
+<section id="buzz">
+
+  <div class="container">
+
+    <div class="section-tag">
+      10 · NEURONX BUZZ
+    </div>
+
+    <h2 class="section-title reveal">
+
+      See what's<br>
+
+      <span>
+        happening.
+      </span>
+
+    </h2>
+
+    <div class="buzz-grid">
+
+      <div class="buzz-card reveal">
+
+        <span>NEURONX · 01</span>
+
+        <h3>
+          Ideas Start Here
+        </h3>
+
+        <p>
+          Big problems. Bold thinking.
+          One opportunity to build something meaningful.
+        </p>
+
+      </div>
+
+      <div class="buzz-card reveal">
+
+        <span>NEURONX · 02</span>
+
+        <h3>
+          AI Meets Imagination
+        </h3>
+
+        <p>
+          Explore emerging AI technologies
+          and turn your ideas into intelligent solutions.
+        </p>
+
+      </div>
+
+      <div class="buzz-card reveal">
+
+        <span>NEURONX · 03</span>
+
+        <h3>
+          Build Under Pressure
+        </h3>
+
+        <p>
+          Think fast, experiment faster and
+          transform your concept into a working prototype.
+        </p>
+
+      </div>
+
+      <div class="buzz-card reveal">
+
+        <span>NEURONX · 04</span>
+
+        <h3>
+          Real Problems. Real Impact.
+        </h3>
+
+        <p>
+          Create solutions designed to solve
+          challenges beyond the hackathon.
+        </p>
+
+      </div>
+
+      <div class="buzz-card reveal">
+
+        <span>NEURONX · 05</span>
+
+        <h3>
+          Build Day
+        </h3>
+
+        <p>
+          10:00 AM – 6:00 PM — a full day
+          of ideation, development and innovation.
+        </p>
+
+      </div>
+
+      <div class="buzz-card reveal">
+
+        <span>NEURONX · 06</span>
+
+        <h3>
+          Demo Day
+        </h3>
+
+        <p>
+          10:00 AM – 1:00 PM — showcase
+          your solution and face the final jury.
+        </p>
+
+      </div>
+
+      <div class="buzz-card reveal">
+
+        <span>NEURONX · 07</span>
+
+        <h3>
+          Make Your Mark
+        </h3>
+
+        <p>
+          Stand out with an idea that combines
+          technology, creativity and real-world value.
+        </p>
+
+      </div>
+
+      <div class="buzz-card reveal">
+
+        <span>NEURONX · 08</span>
+
+        <h3>
+          <span id="buzzCity">
+            Ahmedabad
+          </span>
+          Is Next
+        </h3>
+
+        <p id="buzzCityDescription">
+          Ahmedabad is the next NEURONX destination.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     FAQ
+======================================================= -->
+
+<section id="faq" style="background:#0b0b0b">
+
+  <div class="container">
+
+    <div class="section-tag">
+      11 · FAQ
+    </div>
+
+    <h2 class="section-title reveal">
+
+      Questions?<br>
+
+      We've got
+      <span>
+        answers.
+      </span>
+
+    </h2>
+
+    <div class="faq">
+
+      <div class="faq-item">
+
+        <button class="faq-question">
+
+          Who can participate?
+
+          <span>+</span>
+
+        </button>
+
+        <div class="faq-answer">
+
+          Undergraduate and postgraduate students
+          enrolled in Indian colleges and universities
+          can participate, subject to the eligibility
+          requirements.
+
+        </div>
+
+      </div>
+
+      <div class="faq-item">
+
+        <button class="faq-question">
+
+          What is the maximum team size?
+
+          <span>+</span>
+
+        </button>
+
+        <div class="faq-answer">
+
+          Teams can consist of up to three participants.
+          Participants may also register individually
+          where permitted by the event rules.
+
+        </div>
+
+      </div>
+
+      <div class="faq-item">
+
+        <button class="faq-question">
+
+          Is there a registration fee?
+
+          <span>+</span>
+
+        </button>
+
+        <div class="faq-answer">
+
+          Registration details and any applicable
+          fee are subject to the official event rules
+          provided by the organizers.
+
+        </div>
+
+      </div>
+
+      <div class="faq-item">
+
+        <button class="faq-question">
+
+          Will mentorship be provided?
+
+          <span>+</span>
+
+        </button>
+
+        <div class="faq-answer">
+
+          Mentorship and pitch refinement opportunities
+          may be provided during the event journey.
+
+        </div>
+
+      </div>
+
+      <div class="faq-item">
+
+        <button class="faq-question">
+
+          Can participants outside India participate?
+
+          <span>+</span>
+
+        </button>
+
+        <div class="faq-answer">
+
+          The challenge is designed for participants
+          across India. Participation is subject to
+          the official eligibility requirements.
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     REGISTRATION
+======================================================= -->
+
+<section class="registration" id="register">
+
+  <div class="container">
+
+    <div class="registration-box">
+
+      <div class="registration-header reveal">
+
+        <div class="section-tag">
+          12 · REGISTRATION
+        </div>
+
+        <h2 class="section-title">
+
+          Ready to enter<br>
+
+          <span>
+            NEURONX?
+          </span>
+
+        </h2>
+
+        <p
+          class="section-desc"
+          style="margin-left:auto;margin-right:auto"
+        >
+          Register for the NEURONX AI innovation
+          hackathon and build something meaningful.
+        </p>
+
+      </div>
+
+      <div
+        class="form-card reveal"
+        id="formCard"
+      >
+
+        <form id="registrationForm">
+
+          <div class="form-grid">
+
+            <div class="form-group">
+
+              <label for="name">
+                Full Name
+              </label>
+
+              <input
+                id="name"
+                name="name"
+                type="text"
+                placeholder="Your full name"
+                required
+              >
+
+            </div>
+
+            <div class="form-group">
+
+              <label for="college">
+                College / University
+              </label>
+
+              <input
+                id="college"
+                name="college"
+                type="text"
+                placeholder="Your institution"
+                required
+              >
+
+            </div>
+
+            <div class="form-group">
+
+              <label for="team">
+                Team Name
+              </label>
+
+              <input
+                id="team"
+                name="team"
+                type="text"
+                placeholder="Your team name"
+                required
+              >
+
+            </div>
+
+            <div class="form-group">
+
+              <label for="teamSize">
+                Team Size
+              </label>
+
+              <select
+                id="teamSize"
+                name="teamSize"
+                required
+              >
+
+                <option value="">
+                  Select team size
+                </option>
+
+                <option value="1">
+                  1 Member
+                </option>
+
+                <option value="2">
+                  2 Members
+                </option>
+
+                <option value="3">
+                  3 Members
+                </option>
+
+              </select>
+
+            </div>
+
+            <div class="form-group full">
+
+              <label for="theme">
+                Innovation Theme
+              </label>
+
+              <select
+                id="theme"
+                name="theme"
+                required
+              >
+
+                <option value="">
+                  Select a theme
+                </option>
+
+                <option>
+                  Generative AI for Everyone
+                </option>
+
+                <option>
+                  AI in Education & Skilling
+                </option>
+
+                <option>
+                  Future of Work & Productivity
+                </option>
+
+                <option>
+                  Sustainable AI & Green Tech
+                </option>
+
+                <option>
+                  AI for Social Good
+                </option>
+
+                <option>
+                  AI + Cybersecurity & Privacy
+                </option>
+
+                <option>
+                  AI in Consumer Experiences
+                </option>
+
+                <option>
+                  AI for Smart Cities
+                </option>
+
+                <option>
+                  Open Innovation
+                </option>
+
+              </select>
+
+            </div>
+
+            <div class="form-group full">
+
+              <label for="idea">
+                Tell us about your idea
+              </label>
+
+              <textarea
+                id="idea"
+                name="idea"
+                placeholder="Briefly describe what you want to build..."
+                required
+              ></textarea>
+
+            </div>
+
+          </div>
+
+          <p class="form-note">
+
+            Demo registration only.
+            No backend, database, email service
+            or external API is connected.
+            Your information is not stored.
+
+          </p>
+
+          <button
+            type="submit"
+            class="btn btn-primary submit-button"
+          >
+            SUBMIT REGISTRATION →
+          </button>
+
+        </form>
+
+      </div>
+
+
+      <div
+        class="success-box"
+        id="successBox"
+      >
+
+        <div class="success-icon">
+          ✓
+        </div>
+
+        <h3>
+          Registration Successful
+        </h3>
+
+        <p>
+          Your registration request was
+          accepted successfully.
+        </p>
+
+        <div
+          class="registration-id"
+          id="registrationId"
+        >
+          NX-000000
+        </div>
+
+        <p style="margin-top:20px">
+
+          Response Status:
+
+          <strong style="color:#55ff88">
+            OK
+          </strong>
+
+        </p>
+
+        <button
+          class="btn btn-outline"
+          style="margin-top:25px"
+          onclick="resetRegistration()"
+        >
+          SUBMIT ANOTHER
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     FOOTER
+======================================================= -->
+
+<footer>
+
+  <div class="container">
+
+    <div class="footer-inner">
+
+      <div>
+        © 2026 NEURONX
+      </div>
+
+      <div id="footerEvent">
+        AI INNOVATION HACKATHON
+      </div>
+
+      <div id="footerLocation">
+        AHMEDABAD · INDIA
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<!-- =======================================================
+     JAVASCRIPT
+======================================================= -->
+
+<script>
+
+/* =========================================================
+   EVENT DATA
+
+   IMPORTANT BEHAVIOUR
+
+   The website shows the event whose START DATE is
+   the most recent start date that has already happened.
+
+   Therefore:
+
+   19 Aug  → Ahmedabad
+   20 Aug  → Hyderabad
+   21 Aug  → Hyderabad
+   01 Sep  → Hyderabad
+   03 Sep  → Kolkata
+   11 Sep  → Bengaluru
+   etc.
+
+   This means the city changes automatically on the
+   morning of the next calendar date after the first
+   event day.
+
+========================================================= */
+
+const events = [
+
+  {
+    city:"Jaipur",
+    state:"Rajasthan",
+    country:"India",
+
+    start:"2026-07-01T00:00:00+05:30",
+    end:"2026-07-02T00:00:00+05:30",
+    startDisplay:"01 JULY 2026",
+    endDisplay:"02 JULY 2026",
+
+    dateDisplay:"01–02 JULY 2026"
+  },
+
+  {
+    city:"Pune",
+    state:"Maharashtra",
+    country:"India",
+
+    start:"2026-07-09T00:00:00+05:30",
+    end:"2026-07-10T00:00:00+05:30",
+    startDisplay:"09 JULY 2026",
+    endDisplay:"10 JULY 2026",
+
+    dateDisplay:"09–10 JULY 2026"
+  },
+
+  {
+    city:"Bhopal",
+    state:"Madhya Pradesh",
+    country:"India",
+
+    start:"2026-07-19T00:00:00+05:30",
+    end:"2026-07-20T00:00:00+05:30",
+    startDisplay:"19 JULY 2026",
+    endDisplay:"20 JULY 2026",
+
+    dateDisplay:"19–20 JULY 2026"
+  },
+
+  {
+    city:"Mumbai",
+    state:"Maharashtra",
+    country:"India",
+
+    start:"2026-08-01T00:00:00+05:30",
+    end:"2026-08-02T00:00:00+05:30",
+    startDisplay:"01 AUGUST 2026",
+    endDisplay:"02 AUGUST 2026",
+
+    dateDisplay:"01–02 AUGUST 2026"
+  },
+
+  {
+    city:"Chennai",
+    state:"Tamil Nadu",
+    country:"India",
+
+    start:"2026-08-09T00:00:00+05:30",
+    end:"2026-08-10T00:00:00+05:30",
+    startDisplay:"09 AUGUST 2026",
+    endDisplay:"10 AUGUST 2026",
+
+    dateDisplay:"09–10 AUGUST 2026"
+  },
+
+  {
+    city:"Ahmedabad",
+    state:"Gujarat",
+    country:"India",
+
+    start:"2026-08-19T00:00:00+05:30",
+    end:"2026-08-20T00:00:00+05:30",
+    startDisplay:"19 AUGUST 2026",
+    endDisplay:"20 AUGUST 2026",
+
+    dateDisplay:"19–20 AUGUST 2026"
+  },
+
+  {
+    city:"Hyderabad",
+    state:"Telangana",
+    country:"India",
+
+    start:"2026-09-01T00:00:00+05:30",
+    end:"2026-09-02T00:00:00+05:30",
+    startDisplay:"01 SEPTEMBER 2026",
+    endDisplay:"02 SEPTEMBER 2026",
+
+    dateDisplay:"01–02 SEPTEMBER 2026"
+  },
+
+  {
+    city:"Kolkata",
+    state:"West Bengal",
+    country:"India",
+
+    start:"2026-09-09T00:00:00+05:30",
+    end:"2026-09-10T00:00:00+05:30",
+    startDisplay:"09 SEPTEMBER 2026",
+    endDisplay:"10 SEPTEMBER 2026",
+
+    dateDisplay:"09–10 SEPTEMBER 2026"
+  },
+
+  {
+    city:"Bengaluru",
+    state:"Karnataka",
+    country:"India",
+
+    start:"2026-09-19T00:00:00+05:30",
+    end:"2026-09-20T00:00:00+05:30",
+    startDisplay:"19 SEPTEMBER 2026",
+    endDisplay:"20 SEPTEMBER 2026",
+
+    dateDisplay:"19–20 SEPTEMBER 2026"
+  },
+
+  {
+    city:"Delhi",
+    state:"Delhi",
+    country:"India",
+
+    start:"2026-10-09T00:00:00+05:30",
+    end:"2026-10-10T00:00:00+05:30",                
+    startDisplay:"09 OCTOBER 2026",
+    endDisplay:"10 OCTOBER 2026",
+
+    dateDisplay:"09–10 OCTOBER 2026"
+  }
+
+];
+
+
+/* =========================================================
+   GET ACTIVE / UPCOMING CITY
+
+   THIS IS THE IMPORTANT CHANGE.
+
+   We DO NOT use the event's end date.
+
+   Instead, the city changes whenever the next event's
+   start date arrives.
+
+   Example:
+
+   Aug 19:
+     Ahmedabad has started
+     → Ahmedabad
+
+   Aug 20:
+     Hyderabad has NOT started yet,
+     but Ahmedabad's START DATE is already past.
+     → Hyderabad is the next city
+
+   Sep 1:
+     Hyderabad starts
+     → Hyderabad
+
+   Sep 3:
+     Kolkata has not started yet
+     → Kolkata
+========================================================= */
+
+function getCurrentEvent() {
+  const now = Date.now();
+
+  for (let i = 0; i < events.length; i++) {
+    const eventStart = new Date(events[i].start).getTime();
+    const eventEnd = new Date(events[i].end).getTime();
+
+    // Current event
+    if (now >= eventStart && now < eventEnd) {
+      return events[i];
+    }
+
+    // Next upcoming event
+    if (now < eventStart) {
+      return events[i];
+    }
+  }
+
+  // No upcoming event
+  return events[events.length - 1];
+}
+/* =========================================================
+   GET NEXT EVENT
+========================================================= */
+
+function getNextEvent(){
+
+  const now = Date.now();
+
+  return events.find(event => {
+
+    return (
+      new Date(event.start).getTime()
+      > now
+    );
+
+  }) || events[events.length - 1];
+
+}
+
+
+/* =========================================================
+   UPDATE ALL DYNAMIC CONTENT
+========================================================= */
+
+function updateDynamicLocation(){
+
+  const event =
+    getCurrentEvent();
+
+
+  /* =======================================================
+     HERO
+  ======================================================= */
+
+  document.getElementById(
+    "heroLocation"
+  ).textContent =
+    event.city.toUpperCase();
+
+
+  document.getElementById(
+    "heroDates"
+  ).textContent =
+    event.dateDisplay;
+
+
+  /* =======================================================
+     MARQUEE
+  ======================================================= */
+
+  document.getElementById(
+    "marqueeLocation"
+  ).textContent =
+    event.city.toUpperCase();
+
+
+  document.getElementById(
+    "marqueeDates"
+  ).textContent =
+    event.dateDisplay;
+
+
+  document.getElementById(
+    "marqueeLocation2"
+  ).textContent =
+    event.city.toUpperCase();
+
+
+  document.getElementById(
+    "marqueeDates2"
+  ).textContent =
+    event.dateDisplay;
+
+
+  /* =======================================================
+     LOCATION SECTION
+  ======================================================= */
+
+  const locationLabel =
+    document.getElementById("locationLabel");
+
+  const locationDescription =
+    document.getElementById("locationDescription");
+
+
+  locationLabel.textContent =
+    `${event.city.toUpperCase()} · ${event.state.toUpperCase()} · INDIA`;
+
+
+  document.getElementById(
+    "currentCityStatus"
+  ).textContent =
+    event.city.toUpperCase();
+
+
+  locationDescription.textContent =
+    `${event.city} is the next NEURONX regional innovation destination, bringing together builders, ideas, prototypes and expert evaluation.`;
+
+
+  document.getElementById(
+    "dayOneLabel"
+  ).textContent =
+    `DAY 01 · ${event.startDisplay}`;
+
+
+  document.getElementById(
+    "dayTwoLabel"
+  ).textContent =
+    `DAY 02 · ${event.endDisplay}`;
+
+
+  document.getElementById(
+    "dayOneDescription"
+  ).textContent =
+    `A high-energy innovation sprint in ${event.city} where participants ideate, build and develop bold AI-powered concepts.`;
+
+
+  document.getElementById(
+    "dayTwoDescription"
+  ).textContent =
+    `Shortlisted teams in ${event.city} showcase their prototypes and present their ideas to the regional jury.`;
+
+
+  /* =======================================================
+     CAMPUS
+  ======================================================= */
+
+  document.getElementById(
+    "campusCityTitle"
+  ).textContent =
+    event.city;
+
+
+  document.getElementById(
+    "campusDayOneText"
+  ).textContent =
+    `${event.city} is the next NEURONX regional destination. Participants will ideate, build and experiment with AI-powered solutions.`;
+
+
+  document.getElementById(
+    "campusDayTwoText"
+  ).textContent =
+    `The ${event.city} regional experience concludes with prototype demonstrations, jury evaluation and recognition.`;
+
+
+  /* =======================================================
+     TIMELINE
+  ======================================================= */
+
+  document.getElementById(
+    "timelineDayOne"
+  ).textContent =
+    `${event.startDisplay} · 10:00 AM – 6:00 PM`;
+
+
+  document.getElementById(
+    "timelineDayTwo"
+  ).textContent =
+    `${event.endDisplay} · 10:00 AM – 1:00 PM`;
+
+
+  document.getElementById(
+    "timelineResults"
+  ).textContent =
+    event.endDisplay;
+
+
+  document.getElementById(
+    "timelineDayOneText"
+  ).textContent =
+    `Ideate, build, experiment and develop your AI-powered solution during the ${event.city} regional hackathon.`;
+
+
+  document.getElementById(
+    "timelineDayTwoText"
+  ).textContent =
+    `Present your solution to the jury and demonstrate your innovation, technology and real-world impact in ${event.city}.`;
+
+
+  /* =======================================================
+     BUZZ
+  ======================================================= */
+
+  document.getElementById(
+    "buzzCity"
+  ).textContent =
+    event.city;
+
+
+  document.getElementById(
+    "buzzCityDescription"
+  ).textContent =
+    `${event.city} is the next NEURONX destination. Two days. One city. Limitless possibilities.`;
+
+
+  /* =======================================================
+     FOOTER
+  ======================================================= */
+
+  document.getElementById(
+    "footerLocation"
+  ).textContent =
+    `${event.city.toUpperCase()} · INDIA`;
+
+
+  /* =======================================================
+     CITY GRID
+  ======================================================= */
+
+  document
+    .querySelectorAll(".city")
+    .forEach(city => {
+
+      city.classList.remove("active");
+
+      if(
+        city.dataset.city ===
+        event.city
+      ){
+
+        city.classList.add("active");
+
+      }
+
+    });
+
+
+  /* =======================================================
+     UPDATE ANIMATION
+  ======================================================= */
+
+  document
+    .querySelectorAll(".dynamic-update")
+    .forEach(element => {
+
+      element.classList.remove(
+        "dynamic-update"
+      );
+
+      void element.offsetWidth;
+
+      element.classList.add(
+        "dynamic-update"
+      );
+
+    });
+
+}
+
+
+/* =========================================================
+   COUNTDOWN
+
+   Countdown always points toward the next event START.
+
+   Example:
+
+   Aug 14:
+     Countdown → Aug 19 Ahmedabad
+
+   Aug 19:
+     Countdown → Sep 1 Hyderabad
+
+   Aug 20:
+     Countdown → Sep 1 Hyderabad
+
+========================================================= */
+
+function updateCountdown(){
+
+  const now =
+    Date.now();
+
+
+  const nextEvent =
+    events.find(event => {
+
+      return (
+        new Date(event.start).getTime()
+        > now
+      );
+
+    });
+
+
+  let target;
+
+
+  if(nextEvent){
+
+    target =
+      new Date(
+        nextEvent.start
+      ).getTime();
+
+  }else{
+
+    target = now;
+
+  }
+
+
+  const distance =
+    target - now;
+
+
+  if(distance <= 0){
+
+    document.getElementById(
+      "days"
+    ).textContent = "00";
+
+    document.getElementById(
+      "hours"
+    ).textContent = "00";
+
+    document.getElementById(
+      "minutes"
+    ).textContent = "00";
+
+    document.getElementById(
+      "seconds"
+    ).textContent = "00";
+
+    return;
+
+  }
+
+
+  const days =
+    Math.floor(
+      distance /
+      (1000 * 60 * 60 * 24)
+    );
+
+
+  const hours =
+    Math.floor(
+      (
+        distance %
+        (1000 * 60 * 60 * 24)
+      ) /
+      (1000 * 60 * 60)
+    );
+
+
+  const minutes =
+    Math.floor(
+      (
+        distance %
+        (1000 * 60 * 60)
+      ) /
+      (1000 * 60)
+    );
+
+
+  const seconds =
+    Math.floor(
+      (
+        distance %
+        (1000 * 60)
+      ) /
+      1000
+    );
+
+
+  document.getElementById(
+    "days"
+  ).textContent =
+    String(days).padStart(2,"0");
+
+
+  document.getElementById(
+    "hours"
+  ).textContent =
+    String(hours).padStart(2,"0");
+
+
+  document.getElementById(
+    "minutes"
+  ).textContent =
+    String(minutes).padStart(2,"0");
+
+
+  document.getElementById(
+    "seconds"
+  ).textContent =
+    String(seconds).padStart(2,"0");
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+updateDynamicLocation();
+
+updateCountdown();
+
+
+/* =========================================================
+   LIVE DATE CHECK
+
+   Runs every second so the city changes automatically
+   at midnight without page refresh.
+
+========================================================= */
+
+setInterval(() => {
+
+  updateDynamicLocation();
+
+  updateCountdown();
+
+},1000);
+
+
+/* =========================================================
+   SCROLL REVEAL
+========================================================= */
+
+const observer =
+  new IntersectionObserver(
+
+    entries => {
+
+      entries.forEach(entry => {
+
+        if(entry.isIntersecting){
+
+          entry.target.classList.add(
+            "show"
+          );
+
+        }
+
+      });
+
+    },
+
+    {
+      threshold:.12
+    }
+
+  );
+
+
+document
+  .querySelectorAll(".reveal")
+  .forEach(element => {
+
+    observer.observe(element);
+
+  });
+
+
+/* =========================================================
+   FAQ
+========================================================= */
+
+document
+  .querySelectorAll(".faq-question")
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        const item =
+          button.parentElement;
+
+
+        document
+          .querySelectorAll(".faq-item")
+          .forEach(other => {
+
+            if(other !== item){
+
+              other.classList.remove(
+                "open"
+              );
+
+            }
+
+          });
+
+
+        item.classList.toggle(
+          "open"
+        );
+
+      }
+    );
+
+  });
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+window.addEventListener(
+  "scroll",
+  () => {
+
+    const nav =
+      document.getElementById(
+        "navbar"
+      );
+
+
+    if(window.scrollY > 50){
+
+      nav.style.background =
+        "rgba(5,5,5,.94)";
+
+    }else{
+
+      nav.style.background =
+        "rgba(5,5,5,.72)";
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   HERO PARALLAX
+========================================================= */
+
+const heroVisual =
+  document.getElementById(
+    "heroVisual"
+  );
+
+
+document.addEventListener(
+  "mousemove",
+  event => {
+
+    if(window.innerWidth < 900){
+      return;
+    }
+
+
+    const x =
+      (
+        window.innerWidth / 2 -
+        event.clientX
+      ) / 50;
+
+
+    const y =
+      (
+        window.innerHeight / 2 -
+        event.clientY
+      ) / 50;
+
+
+    heroVisual.style.transform =
+      `translateY(-50%) translate(${x}px,${y}px)`;
+
+  }
+);
+
+
+/* =========================================================
+   MOBILE NAV
+========================================================= */
+
+const mobileMenu =
+  document.getElementById(
+    "mobileMenu"
+  );
+
+
+const navLinks =
+  document.getElementById(
+    "navLinks"
+  );
+
+
+mobileMenu.addEventListener(
+  "click",
+  () => {
+
+    navLinks.classList.toggle(
+      "mobile-nav-open"
+    );
+
+  }
+);
+
+
+document
+  .querySelectorAll(".nav-links a")
+  .forEach(link => {
+
+    link.addEventListener(
+      "click",
+      () => {
+
+        navLinks.classList.remove(
+          "mobile-nav-open"
+        );
+
+      }
+    );
+
+  });
+
+
+/* =========================================================
+   DEMO REGISTRATION
+========================================================= */
+
+const registrationForm =
+  document.getElementById(
+    "registrationForm"
+  );
+
+
+const formCard =
+  document.getElementById(
+    "formCard"
+  );
+
+
+const successBox =
+  document.getElementById(
+    "successBox"
+  );
+
+
+const registrationId =
+  document.getElementById(
+    "registrationId"
+  );
+
+
+function generateRegistrationId(){
+
+  const now =
+    Date.now()
+      .toString()
+      .slice(-6);
+
+
+  const random =
+    Math.floor(
+      100 +
+      Math.random() * 900
+    );
+
+
+  return `NX-${now}-${random}`;
+
+}
+
+
+registrationForm.addEventListener(
+  "submit",
+  event => {
+
+    event.preventDefault();
+
+
+    const id =
+      generateRegistrationId();
+
+
+    registrationId.textContent =
+      id;
+
+
+    formCard.style.display =
+      "none";
+
+
+    successBox.style.display =
+      "block";
+
+
+    successBox.scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+
+  }
+);
+
+
+/* =========================================================
+   RESET REGISTRATION
+========================================================= */
+
+function resetRegistration(){
+
+  registrationForm.reset();
+
+
+  successBox.style.display =
+    "none";
+
+
+  formCard.style.display =
+    "block";
+
+
+  formCard.scrollIntoView({
+    behavior:"smooth",
+    block:"center"
+  });
+
+}
+
+
+/* =========================================================
+   DATE TEST HELPER
+
+   Open browser console:
+
+   simulateDate("2026-08-18")
+   → Chennai
+
+   simulateDate("2026-08-19")
+   → Ahmedabad
+
+   simulateDate("2026-08-20")
+   → Hyderabad
+
+   simulateDate("2026-08-25")
+   → Hyderabad
+
+   simulateDate("2026-09-01")
+   → Hyderabad
+
+   simulateDate("2026-09-03")
+   → Kolkata
+
+   simulateDate("2026-09-11")
+   → Bengaluru
+
+========================================================= */
+
+function simulateDate(dateString){
+
+  const fakeDate =
+    new Date(
+      `${dateString}T12:00:00+05:30`
+    );
+
+
+  if(isNaN(fakeDate.getTime())){
+
+    console.error(
+      "Invalid date."
+    );
+
+    return;
+
+  }
+
+
+  const originalDateNow =
+    Date.now;
+
+
+  Date.now = () =>
+    fakeDate.getTime();
+
+
+  updateDynamicLocation();
+
+  updateCountdown();
+
+
+  console.log(
+    "Simulated date:",
+    dateString,
+    "→",
+    getCurrentEvent().city
+  );
+
+
+  setTimeout(
+    () => {
+
+      Date.now =
+        originalDateNow;
+
+      updateDynamicLocation();
+
+      updateCountdown();
+
+      console.log(
+        "Simulation ended."
+      );
+
+    },
+    10000
+  );
+
+}
+
+</script>
+
+</body>
+</html>
